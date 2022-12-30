@@ -1,0 +1,10 @@
+.logo {
+    width: 150px; 
+    height: 137px;
+}
+div.top {
+    display: flex; 
+    flex-direction: row; 
+    justify-content: left;
+    padding: 2px;
+}

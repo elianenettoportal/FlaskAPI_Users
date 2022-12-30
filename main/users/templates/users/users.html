@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+                    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <title>Search Users</title>
+    </head>
+    <body>
+        <!-- (DOC) Forms are by default a method GET, but let´s add anyways to be readable -->
+        <div class="container" style="margin-top:1.5em;">
+            <h3>
+                Users table
+                <small class="text-muted">Find users by first name or last name</small>
+            </h3>
+            <form class="form-inline my-2 my-lg-0 p-1" method="GET" action="/users/">
+                <button class="btn btn-outline-success p-1" type="submit" id="btn-clearsearch" style="padding-left: 0;">All Results</button>
+            </form>
+            <form class="form-inline my-2 my-lg-0" method="GET" action="/users/search">
+                <!-- (DOC)  When a user submit the form a data sent to the server will be a -name value pair- name is the var to userData and value is what user types. Value auto added to the submit-->
+                <div class="d-flex p-1 flex-row justify-content-start">
+                    <input class="form-control col-md-4" type="search" placeholder="Search Users" name="name" style="width:50%">
+                    <!-- (DOC) submit function in users blueprint will handle the args name  -->
+                    <button class="btn btn-outline-success p-1" type="submit"id="btn-searchusers" style="width:10%; margin-left:12px;">Search</button>
+                </div>
+                <table class="table" data-pagination="true">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Bio</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <!-- (DOC) if the result set has total value greater than zero, show the pagination -->
+                        <div class="d-flex p-1 flex-col justify-content-start">
+                            {% if data_set.total and data_set.total > 0 %}
+                                <p class="p-1">Total results {{ data_set.total}}</p> 
+                            {% endif %}
+                            {% if filterName|length > 0 %}
+                                <p class="p-1">Searching for {{filterName}}</p> 
+                            {% endif %}
+                        </div>
+                        {% if data_set.total and data_set.total > 0 %}
+                            {% for user in data_set %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{user.firstName}}</td>
+                                    <td>{{user.lastName}}</td>
+                                    <td>{{user.bio}}</td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                        <!-- (DOC) if nothing is found, shouw to users a row message  -->
+                            <tr>
+                                <th scope="row">#</th>
+                                <td colspan="3">No users found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                {% if data_set.total %}
+                    
+                    <p>Page Selected {{data_set.next_num}}</p>
+                    
+                    <!-- previous page -->
+                    {% if data_set.has_prev %}
+                        <a href="{{ url_for('users.users_search',page_num=data_set.prev_num,  name=filterName) }}">Previous</a>
+                    {% endif %}
+                    <!-- all page numbers -->
+                    {% for pg in data_set.iter_pages() %}
+                        {% if pg %}
+                            {% if pg != data_set.page_num %}
+                                <a href="{{ url_for('users.users_search', page_num=pg, name=filterName) }}">{{ pg }}</a>
+                            {% else %}
+                                <a href="#">{{ pg }}</a>
+                            {% endif %}
+                            {% else %}
+                                <span class="ellipsis" style="white-space; nowrap; overflow: hidden; text-overflow: ellipsis">…</span>
+                        {% endif %}
+                    {% endfor %}
+                    <!-- next page -->
+                    {% if data_set.has_next %}
+                        <a href="{{ url_for('users.users_search',page_num=data_set.next_num,  name=filterName) }}">Next</a>
+                    {% endif %}
+                {% endif %}
+            </form>
+            <form action="/">
+                <button type="submit" class="btn btn-secondary mb-4" style="padding-left: 0;">Back to Home</button>
+            </form>
+        </div>
+    </body>
+</html>

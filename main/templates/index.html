@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <!-- CSS only -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+                    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+        <title>Flask API</title>
+    </head>
+    <body>
+        <h1 class="visually-hidden"></h1>
+        <div class="px-4 py-5 my-5 text-center">
+            <img class="logo d-block mx-auto mb-4" src="static/computer-1331579__340.jpeg" alt="">
+            <h1 class="display-5 fw-bold">Flask Project</h1>
+            <div class="col-lg-6 mx-auto">
+              <p class="lead mb-4">This is my first project in Flask. The API has an endpoint to search users from a SQlite database. The data is placed in a table, it has Searching and Pagination.</p>
+              <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <form action="/users/">
+                    <button type="submit" class="btn btn-dark btn-lg px-4 gap-3">Go to search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="b-example-divider"></div>
+    </body>
+</html>
