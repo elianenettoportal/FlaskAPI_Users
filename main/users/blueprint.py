@@ -8,12 +8,10 @@ users = Blueprint('users', __name__, template_folder='templates')
 User = user.User;
 
 """
-    When True, the cache key used will be the result of hashing the ordered query string parameters. 
-    This avoids creating different caches for the same query just because the parameters were passed in a different order.
-    (CACHED) These two endpoints are User Router to fetch users.
-    They are cached and the response stored based on Query String. 
+    These endpoints are used in the User Router to fetch users.
+    They are cached and the response is stored based on Query String. 
     The timeout is default, set in the config app - 300 seconds
-    timeout which is the time that this response will be cached in Redis memory.
+    timeout param is the time that this response will be cached in Redis memory.
     
     NOTE: RedisCache is already available in werkzeug >= 0.7 no need for a special configuration
 """
@@ -34,7 +32,11 @@ def users_list():
     print("--- %s seconds ---" % (time.time() - start_time))       
     return render_template('users/users.html', data_set=users)
 
-
+"""
+param query_string: 
+    When True, the cache key used will be the result of hashing the ordered query string parameters. 
+    This avoids creating different caches for the same query just because the parameters were passed in a different order.
+"""
 # localhost:5000/users/search
 @users.route('/search')
 @cache.cached(query_string=True)

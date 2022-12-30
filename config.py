@@ -1,4 +1,11 @@
-"""Flask configuration."""
+"""Flask configuration.
+This is a generic Class config for 4 different types of caching
+1. (DevConfig) Local caching using flask-caching type SimpleCache
+2. (LocalRedisConfig) Local caching to test locally a flask-caching type RedisCache
+3. (HerokuRedisConfig) To publish in Heroku, it combines the code in Routers to test SimpleCache with environment variables and External Redis Enterprise Cloud for Caching
+4. (DockerConfig) To test flask-caching type RedisCache in a docker using a Docker container. The .env file has the environmental variables
+
+"""
 import os
 
 BASE_DIR= os.path.abspath(os.path.dirname(__file__))
