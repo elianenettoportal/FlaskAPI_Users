@@ -1,18 +1,7 @@
 
-<h2> Description</h2>
-This is an API in Python to fetch more than 1MM records.It contains Searching and the Pagination.
-For this implementation I am using Flask Framerok with SQLite database, cache-control, and dockerization
+:fire:<mark>NEW VERSION</mark><br>:fire:
 
 <h1> FlaskAPI Users </h1>
-
----------------------------------------------------------------------------------------------------------------------------------------------------
-:fire:<mark>NEW VERSION</mark><br>
-> &nbsp;&nbsp;I made a few changes to the project after had it been delivered. This remains original, I created a new Repository if you  would like to consider.<br>
-[-> here](https://github.com/elianenettoportal/FlaskAPI_Users_2)
-1. Fixed gitignore
-2. Improved RedisCache in localhost and Docker
-3. Clean code and comments
----------------------------------------------------------------------------------------------------------------------------------------------------
 
 <h2> Description</h2>
 This is an API in Python to fetch more than 1MM records.It contains Searching and the Pagination.
