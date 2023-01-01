@@ -23,7 +23,7 @@ This app is configured to run 3 different types of caching.
 2. Flask-Caching type RedisCache
 3. External Redis Enterprise Cloud Caching published in Heroku
 """
-app.config.from_object(DevConfig)
+#app.config.from_object(DevConfig)
 #(Uncomment below to run the Docker Redis config)
 #app.config.from_object(DockerConfig)
 
@@ -34,7 +34,7 @@ app.config.from_object(DevConfig)
 #app.config.from_object(LocalRedisConfig)
 
 #(Uncomment below to run HEROKU config)
-#app.config.from_object(HerokuRedisConfig)
+app.config.from_object(HerokuRedisConfig)
 
 # add app to the objects  
 cache = Cache(app)
