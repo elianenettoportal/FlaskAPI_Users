@@ -18,7 +18,10 @@
                 <small class="text-muted">Find users by first name or last name</small>
             </h3>
             <form class="form-inline my-2 my-lg-0 p-1" method="GET" action="/users/">
-                <button class="btn btn-outline-success p-1" type="submit" id="btn-clearsearch" style="padding-left: 0;">All Results</button>
+                <button class="btn btn-outline-success p-1" type="submit" id="btn-clearsearch">All Results</button>
+            </form>
+            <form class="form-inline my-2 my-lg-0 p-1" action="/users/create">
+                <button class="btn btn-outline-success p-1" id="btn-create">New User</button>
             </form>
             <form class="form-inline my-2 my-lg-0" method="GET" action="/users/search">
                 <!-- (DOC)  When a user submit the form a data sent to the server will be a -name value pair- name is the var to userData and value is what user types. Value auto added to the submit-->
@@ -34,6 +37,7 @@
                         <th scope="col">First Name</th>
                         <th scope="col">Last Name</th>
                         <th scope="col">Bio</th>
+                        <th scope="col">User Actions</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -53,6 +57,10 @@
                                     <td>{{user.firstName}}</td>
                                     <td>{{user.lastName}}</td>
                                     <td>{{user.bio}}</td>
+                                    <td>
+                                        <a href="{{ url_for('users.user_redirect', action='edit', selected=user.id) }}">Edit</a>
+                                        <a href="{{ url_for('users.user_redirect', action='delete', selected=user.id) }}">Delete</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         {% else %}
@@ -91,7 +99,7 @@
                 {% endif %}
             </form>
             <form action="/">
-                <button type="submit" class="btn btn-secondary mb-4" style="padding-left: 0;">Back to Home</button>
+                <button type="submit" class="btn btn-secondary mb-4">Back to Home</button>
             </form>
         </div>
     </body>

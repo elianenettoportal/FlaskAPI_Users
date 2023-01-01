@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from main import db
 
-# Schema definition
+# Schema definition -  new class which inherits from a basic database model
 class User(db.Model):
     __table__name = 'user'
 
@@ -23,6 +23,10 @@ def format(self):
       'bio'      : self.bio,
     }
 
-# The special __repr__ function allows you to give each object a string representation to recognize it for debugging purposes. In this case you use the student’s first name.
+'''
+  The special __repr__ function allows you to give each object a string representation to recognize it for debugging purposes.
+  This allows us to do things like print(user)
+'''
+
 def __repr__(self):
     return f'<User id: {self.id}, firstName: {self.firstname}, lastName: {self.lastName}>'

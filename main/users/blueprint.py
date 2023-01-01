@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect
 from main.model import user
+from main import db
 from main import cache
 import time
 
@@ -16,9 +17,9 @@ User = user.User;
     NOTE: RedisCache is already available in werkzeug >= 0.7 no need for a special configuration
 """
 # localhost:5000/users/
-@users.route('/')
+@users.route('/memo')
 @cache.memoize()
-def users_list():
+def users_list_memo():
     start_time = time.time()
     args       = request.args
     per_page   = 15
@@ -59,3 +60,87 @@ def users_search():
     print("--- %s seconds ---" % (time.time() - start_time)) 
     return render_template('users/users.html', filterName=filterName, data_set=users)
 
+# localhost:5000/users/
+@users.route('/')
+def users_list():
+    start_time = time.time()
+    args       = request.args
+    per_page   = 15
+    page_num   = args.get('page_num') if args.get('page_num') != None else 1
+    try:
+        users = User.query.order_by(User.lastName).paginate(page=int(page_num), per_page=int(per_page), error_out=True)
+    except Exception as err:
+        print("ERROR** Module User Router - users_list()", str(err))
+        users = []; filterName='';
+
+    print("--- %s seconds ---" % (time.time() - start_time))       
+    return render_template('users/users.html', data_set=users)
+
+
+''' 
+    By default, Flask accepts GET requests for all routes, I added here it to allow GET and POST requests
+    if request.form checks if someone just submitted the form. 
+    If they did, we can access the data that they submitted through the request.form variable
+    Flask represents all of the form data as an ImmutableMultiDict, which is just a fancy Python dictionary.
+    It stored our user's input as a tuple
+'''
+# localhost:5000/users/create
+@users.route('/create',methods=["GET", "POST"])
+def user_create():
+    if request.form:
+        newUser = User(firstName=request.form.get("firstName"), lastName=request.form.get("lastName"), bio=request.form.get("bio"))
+        db.session.add(newUser)
+        db.session.commit()
+    return render_template('users/user_create.html')
+
+'''
+    This method will just redirect to a delete or update template
+'''
+# localhost:5000/users/redirect
+@users.route("/redirect")
+def user_redirect():
+    try:
+        args = request.args
+        if args.get('selected'):
+            userFound = User.query.filter_by(id=args.get('selected')).first()
+        if args.get('action') == 'edit' and userFound:
+            return render_template('users/user_update.html', selected=userFound)
+        elif args.get('action') == 'delete' and userFound:
+            return render_template('users/user_delete.html', selected=userFound)
+        else:
+            return redirect("/users/")
+    except Exception as err:
+        print("ERROR** Module User Router - redirect()", str(err))
+        return redirect("/users/")
+
+'''
+    Find user by the id selected and sent by param and edit the first name
+'''
+# localhost:5000/users/update
+@users.route("/update", methods=["POST"])
+def user_update():
+    try:
+        firstName = request.form.get("firstName")
+        userId    = request.form.get("userId")
+        userFound = User.query.filter_by(id=userId).first()
+        userFound.firstName = firstName
+        db.session.commit()
+    except Exception as err:
+        print("ERROR** Module User Router - redirect()", str(err))
+    return redirect("/users/")
+
+
+'''
+    Find user by the id selected and sent by param and delete it by id
+'''
+# localhost:5000/users/delete
+@users.route("/delete", methods=["POST"])
+def user_delete():
+    try:
+        userId = request.form.get("userId")
+        userFound = User.query.filter_by(id=userId).first()
+        db.session.delete(userFound)
+        db.session.commit()
+    except Exception as err:
+        print("ERROR** Module User Router - redirect()", str(err))
+    return redirect("/users/")
