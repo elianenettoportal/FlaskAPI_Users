@@ -25,7 +25,7 @@ This app is configured to run 3 different types of caching.
 """
 #app.config.from_object(DevConfig)
 #(Uncomment below to run the Docker Redis config)
-#app.config.from_object(DockerConfig)
+app.config.from_object(DockerConfig)
 
 #(Uncomment bellow for local dev or redis cache)
 #  remember to start client redis
@@ -34,7 +34,7 @@ This app is configured to run 3 different types of caching.
 #app.config.from_object(LocalRedisConfig)
 
 #(Uncomment below to run HEROKU config)
-app.config.from_object(HerokuRedisConfig)
+#app.config.from_object(HerokuRedisConfig)
 
 # add app to the objects  
 cache = Cache(app)
