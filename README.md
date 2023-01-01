@@ -1,3 +1,6 @@
+
+:fire:<mark>NEW VERSION</mark>:fire:<br>
+
 <h1> FlaskAPI Users </h1>
 
 <h2> Description</h2>
@@ -10,8 +13,59 @@ Flask Framework is a Python microframework for web development. It means that Fl
 </br>
 </br>
 
-The image below shows the packages definitions.
-![file_definition](https://user-images.githubusercontent.com/6922622/208955742-815cfff1-8268-45c5-a82e-4cabf887eba5.jpg)
+### Project Layout
+```
+root/
+|
+├── db/
+|   ├── userList.py 
+|	  ├── production database(1MM registers)   
+|	  └── test database(5 registers)
+|
+├── main/
+|   ├── templates/
+|   |  	 └── index.html
+|	  |
+|   ├── static/
+|   |	 └── css/
+|   |		  └── main.css
+|	  ├── model/
+|   |     ├── __init__.py
+|   |     └── user.py
+|	  ├── users/
+|   |	   ├── templates/
+|   |	   |	  └── users.html
+|   |  	   └── blueprint.py
+|   ├── __init__.py
+|   └── routers.py
+|
+├── tests/
+|
+├── app.py
+├── config.py
+├── .env
+├── docker-compose.yml
+├── Dockerfile
+├── Procfile
+├── requirements-dev.txt
+└── requirements.txt
+```
+### Packages definition:<br>
+<code>user_list.py  (file to test and create sqlite database)<br>
+user                (user schema definition)<br>
+index.html          (landing page template)<br>
+blueprint.py        (file to manipulate users routers)<br>
+templates           (users.html - users page with pagination, users table result)<br>
+__init__.py         (instanciate the Flask app and app configurations)<br>
+routerss.py          (landing page router )<br> 
+app.py              ( this file is the application entry point.)<br>
+config.py           ( the Flask app configurations for Dev and Production)<br>
+.env                ( environment variables to redis)<br>
+docker-compile      ( script to generate the containers Flask and Redis AND run Dockerfile)<br>
+Dockerfile          ( the docker commands to build a container for python env)<br>
+Procfile            ( the commands to publish Heroku)<br>
+requirements.txt    ( the libraries for production)<br>
+requirements-dev.txt( the libraries for test environment)</code>
 
 * Python Language:<br>
  It is perfect for POCs and small-time developments. The leaders for python FE are Django and Flask.
@@ -83,4 +137,3 @@ I created a docker file to install python, install requirements.tx and build the
 I created a docker compose to build the docker containers Fask Api + Redis cache control.<br>
 To compile, clone this project, go inside the root package and run :<br>
 `run docker-compose up -d --build` <br> 
-
