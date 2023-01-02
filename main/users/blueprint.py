@@ -16,8 +16,28 @@ User = user.User;
     
     NOTE: RedisCache is already available in werkzeug >= 0.7 no need for a special configuration
 """
+
+# Main router not cached, used when back from Edit or Delete
 # localhost:5000/users/
-@users.route('/memo')
+@users.route('/')
+def users_list():
+    start_time = time.time()
+    args       = request.args
+    per_page   = 15
+    page_num   = args.get('page_num') if args.get('page_num') != None else 1
+    try:
+        users = User.query.order_by(User.lastName).paginate(page=int(page_num), per_page=int(per_page), error_out=True)
+    except Exception as err:
+        print("ERROR** Module User Router - users_list()", str(err))
+        users = []; filterName='';
+
+    print("--- %s seconds ---" % (time.time() - start_time))       
+    return render_template('users/users.html', data_set=users)
+
+
+# Main router  cached, used in Button All Results
+# localhost:5000/users/memoize
+@users.route('/memoize')
 @cache.memoize()
 def users_list_memo():
     start_time = time.time()
@@ -30,7 +50,7 @@ def users_list_memo():
         print("ERROR** Module User Router - users_list()", str(err))
         users = []; filterName='';
 
-    print("--- %s seconds ---" % (time.time() - start_time))       
+    print("--- %s memoize ---" % (time.time() - start_time))       
     return render_template('users/users.html', data_set=users)
 
 """
@@ -59,23 +79,6 @@ def users_search():
 
     print("--- %s seconds ---" % (time.time() - start_time)) 
     return render_template('users/users.html', filterName=filterName, data_set=users)
-
-# localhost:5000/users/
-@users.route('/')
-def users_list():
-    start_time = time.time()
-    args       = request.args
-    per_page   = 15
-    page_num   = args.get('page_num') if args.get('page_num') != None else 1
-    try:
-        users = User.query.order_by(User.lastName).paginate(page=int(page_num), per_page=int(per_page), error_out=True)
-    except Exception as err:
-        print("ERROR** Module User Router - users_list()", str(err))
-        users = []; filterName='';
-
-    print("--- %s seconds ---" % (time.time() - start_time))       
-    return render_template('users/users.html', data_set=users)
-
 
 ''' 
     By default, Flask accepts GET requests for all routes, I added here it to allow GET and POST requests
