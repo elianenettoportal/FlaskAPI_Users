@@ -15,7 +15,7 @@ cache = Cache()
 app = Flask(__name__)
 
 # NOTE: The secret key is used to cryptographically-sign the cookies used for storing the session identifier.
-app.secret_key = "testpowertofly_BRAZIL"
+app.secret_key = "mysecretkey_BRAZIL"
 
 """
 This app is configured to run 3 different types of caching. 

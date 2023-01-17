@@ -3,7 +3,7 @@
 import sqlite3
 
 # Connecting to sqlite
-connection = sqlite3.connect("powertofly2.db") # makes the connection
+connection = sqlite3.connect("users2.db") # makes the connection
 
 # cursor object
 cursor_obj = connection.cursor()

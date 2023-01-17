@@ -1,4 +1,8 @@
 
+run -> python3 app.py run
+goto-> http://localhost:5000/
+
+
 :fire:<mark>NEW VERSION</mark>:fire:<br>
 
 <h1> FlaskAPI Users </h1>

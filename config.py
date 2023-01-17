@@ -22,7 +22,7 @@ class DevConfig(BaseConfig):
     CACHE_TYPE = "SimpleCache"
     CACHE_DIR= '/tmp'
     FLASK_ENV = 'development'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/powertofly_test.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/users_test.db'
 
 class LocalRedisConfig(BaseConfig):
     SECRET_KEY = 'dev'
@@ -30,18 +30,18 @@ class LocalRedisConfig(BaseConfig):
     CACHE_REDIS_HOST= '0.0.0.0'
     CACHE_REDIS_PORT= 6379
     CACHE_DEFAULT_TIMEOUT= 180
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/powertofly.db' 
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/users.db' 
 
 class HerokuRedisConfig(BaseConfig):
     SECRET_KEY = 'herokuprod'
     CACHE_DEFAULT_TIMEOUT= 180
     CACHE_TYPE = 'SimpleCache'
     CACHE_REDIS_PORT = 6379
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/powertofly.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/users.db'
 
 class DockerConfig(BaseConfig):
     SECRET_KEY = 'dockerprod'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/powertofly.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///'+BASE_DIR+'/db/users.db'
     CACHE_TYPE = os.environ['CACHE_TYPE']
     CACHE_REDIS_HOST = os.environ['CACHE_REDIS_HOST']
     CACHE_REDIS_PORT = os.environ['CACHE_REDIS_PORT']
